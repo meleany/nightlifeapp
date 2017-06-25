@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html ng-app="nightapp">
+  
+  <head>
+    <title>NightLife App</title>
+    <link href="/public/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/public/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Glass Antiqua', rel='stylesheet', type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Righteous', rel='stylesheet', type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway', rel='stylesheet', type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Marko One', rel='stylesheet', type='text/css'>
+
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+		<script type="text/javascript" src="https://code.angularjs.org/1.6.4/angular-resource.min.js"></script>
+    <script type="text/javascript" src="controllers/clickController.client.js"></script>    
+  </head>
+  
+  <body ng-controller="appController">
+    
+    <div class="box">
+      
+      <h1>MeeT<i class="fa fa-check-circle-o fa-2x"></i>Night</h1>
+    
+      <div class="dashboard">
+        <h3>Where are you going tonight? A guide to Bars & Restaurants. Find out and RVSP ahead of time!</h3>
+        <p>Your Nightlife Coordination App. A project for FreeCodeCamp</p> 
+        <div id="icons">
+          <i class="fa fa-thumb-tack fa-2x fa-fw fa-border"></i>             
+          <i class="fa fa-taxi fa-2x fa-fw fa-border"></i>
+          <i class="fa fa-cutlery fa-2x fa-fw fa-border"></i>      
+          <i class="fa fa-glass fa-2x fa-fw fa-border"></i>
+          <a href="/auth/github" class="login btn" ng-hide="logged"> <i class="fa fa-github fa-2x fa-fw"></i> <span>Login</span> </a>
+          <a href="/logout" class="login btn" ng-show="logged"> <i class="fa fa-github fa-2x fa-fw"></i> <span>Logout</span> </a> 
+          <a> <span id="logger"> Visiting as <span style="font-weight:bold;font-size:20px;color:rgb(124, 252, 0);">{{loginName}}! </span> 
+          </span></a>
+        </div>
+      </div>
+      
+      <div class="searchBox">
+        <input type="text" placeholder="Where abouts? i.e. Paris" maxlength="100" ng-model="place">
+          <span >
+            <i class="fa fa-search fa-2x fa-fw" ng-hide="loading" style="color:rgba(0,0,0,0)"></i>
+            <i class="fa fa-spinner fa-pulse fa-2x fa-fw" ng-show="loading"></i>
+          </span>
+          <span class="sr-only" ng-show="loading"> Loading ... </span>        
+        <input type="button" value="Find Bars!" ng-click="search()"></button>
+      </div>
+    
+    <div class= "results">
+      <ul>
+        <li ng-repeat="local in locals">
+          <p id="title">{{local.name}}</p>
+          <div class="col-left">            
+            <a href="{{local.url}}" target="_blank"><img id="avatar" src="{{local.image_url}}"></a>
+          </div>
+          <div class="col-center">
+            <span>Type: </span> <div style="display:inline-block" ng-repeat="type in local.categories"> <span id="extraInfo"> {{type.title}} </span></div>
+            <p> Price: {{local.price}} </p>
+            <p>Phone: {{local.display_phone}}</p>
+            <p>{{local.location.display_address[0]}}, {{local.location.display_address[1]}}</p>
+            <p> Rating: {{local.rating}} from {{local.review_count}} Reviews</p>
+          </div>
+          <div class="col-right">
+            <div id="openInfo">
+              <span style="color:rgb(124, 252, 0)", ng-hide='{{local.is_closed}}'>Open now</span>
+              <span style="color:red", ng-show='{{local.is_closed}}'>Closed now</span>
+            </div>                                    
+            <div> <button class="login btn" ng-click="userUpdate(local.name, local.id, locals.indexOf(local))">
+              {{going[locals.indexOf(local)]}} GOING</button> 
+            </div>    
+            <div id="tradelogo">
+              <a href="https://www.yelp.com" target="_blank"><img src="/public/images/Yelp.png" width="60"></a>
+            </div>
+          </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div style="height:100px"></div> <!-- Div to create space to avoid the last results covered by the footer -->
+
+    <footer>
+			<p id="copyright"> Copyright © 2017 Yasmin Melean </p>
+      <div id="links">
+			  <a href="https://www.freecodecamp.com/meleany" target="_blank">
+          <i class="fa fa-free-code-camp fa-2x fa-fw"></i>
+			  </a>
+			  <a href="https://github.com/meleany" target="_blank">
+				  <i class="fa fa-github-alt fa-2x"></i>
+			  </a>
+			  <a href="https://codepen.io/meleany" target="_blank">
+				  <i class="fa fa-codepen fa-2x"></i>
+			  </a>
+			  <a href="https://ymelbart.wordpress.com" target="_blank"> 
+				  <i class="fa fa-wordpress fa-2x"></i>
+			  </a>
+      </div>
+    </footer>
+  
+  </body>
+  
+</html>
